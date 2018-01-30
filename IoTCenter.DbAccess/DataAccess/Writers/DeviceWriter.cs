@@ -7,7 +7,7 @@ namespace IoTCenter.DbAccess.DataAccess.Writers
 {
     public class DeviceWriter : DataAccessBase
     {
-        public void AddDevice(Device device)
+        public void AddDevice(IDevice device)
         {
             //new IoTCenterEntities().spAddDevice(device.Name, device.Mac, device.Ip.ToString(), device.Type.ToString());
             var command = new SqlCommand("Devices.spAddDevice");

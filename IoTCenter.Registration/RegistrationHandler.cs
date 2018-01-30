@@ -15,14 +15,14 @@ namespace IoTCenter.Registration
 {
     public class RegistrationHandler
     {
-        public ICollection<Domain.Device> RegisteredDevices;
+        public ICollection<IDevice> RegisteredDevices;
 
         public RegistrationHandler()
         {
-            RegisteredDevices = new List<Domain.Device>();
+            RegisteredDevices = new List<IDevice>();
         }
 
-        public void RegisterDevice(Domain.Device device)
+        public void RegisterDevice(IDevice device)
         {
             var writer = new DeviceWriter();
             writer.AddDevice(device);
