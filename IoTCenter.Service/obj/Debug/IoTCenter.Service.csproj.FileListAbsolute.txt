@@ -1,0 +1,11 @@
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\obj\Debug\IoTCenter.Service.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\IoTCenter.Service.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\IoTCenter.Service.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\IoTCenter.DbAccess.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\IoTCenter.Domain.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\EntityFramework.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\IoTCenter.DbAccess.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\IoTCenter.Domain.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\bin\Debug\EntityFramework.xml
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\obj\Debug\IoTCenter.Service.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Service\obj\Debug\IoTCenter.Service.pdb

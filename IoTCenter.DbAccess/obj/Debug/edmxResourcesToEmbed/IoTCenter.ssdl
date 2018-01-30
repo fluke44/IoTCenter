@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="IoTCenter.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Device">
+    <Key>
+      <PropertyRef Name="Id" />
+    </Key>
+    <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="nvarchar" MaxLength="255" Nullable="false" />
+    <Property Name="Mac" Type="nvarchar" MaxLength="17" Nullable="false" />
+    <Property Name="Ip" Type="nvarchar" MaxLength="15" Nullable="false" />
+    <Property Name="Type" Type="nvarchar" MaxLength="100" Nullable="false" />
+    <Property Name="Registered" Type="bit" Nullable="false" />
+    <Property Name="DateRegistered" Type="datetime" />
+  </EntityType>
+  <Function Name="spAddDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="devices">
+    <Parameter Name="Name" Type="nvarchar" Mode="In" />
+    <Parameter Name="Mac" Type="nvarchar" Mode="In" />
+    <Parameter Name="Ip" Type="nvarchar" Mode="In" />
+    <Parameter Name="Type" Type="nvarchar" Mode="In" />
+  </Function>
+  <Function Name="spRegisterDevice" Aggregate="false" BuiltIn="false" NiladicFunction="false" IsComposable="false" ParameterTypeSemantics="AllowImplicitConversion" Schema="devices">
+    <Parameter Name="Mac" Type="nvarchar" Mode="In" />
+    <Parameter Name="Register" Type="bit" Mode="In" />
+  </Function>
+  <EntityContainer Name="IoTCenterStoreContainer">
+    <EntitySet Name="Device" EntityType="Self.Device" Schema="devices" store:Type="Tables" />
+  </EntityContainer>
+</Schema>

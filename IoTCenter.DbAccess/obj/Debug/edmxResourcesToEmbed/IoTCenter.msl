@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="IoTCenterStoreContainer" CdmEntityContainer="IoTCenterEntities">
+    <EntitySetMapping Name="Device">
+      <EntityTypeMapping TypeName="IoTCenter.Device">
+        <MappingFragment StoreEntitySet="Device">
+          <ScalarProperty Name="Id" ColumnName="Id" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Mac" ColumnName="Mac" />
+          <ScalarProperty Name="Ip" ColumnName="Ip" />
+          <ScalarProperty Name="Type" ColumnName="Type" />
+          <ScalarProperty Name="Registered" ColumnName="Registered" />
+          <ScalarProperty Name="DateRegistered" ColumnName="DateRegistered" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <FunctionImportMapping FunctionImportName="spAddDevice" FunctionName="IoTCenter.Store.spAddDevice" />
+    <FunctionImportMapping FunctionImportName="spRegisterDevice" FunctionName="IoTCenter.Store.spRegisterDevice" />
+  </EntityContainerMapping>
+</Mapping>

@@ -1,0 +1,14 @@
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.Core.dll.config
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.Core.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.Core.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\EntityFramework.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\EntityFramework.SqlServer.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.DbAccess.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.Domain.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.DbAccess.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\IoTCenter.Domain.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\EntityFramework.xml
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\bin\Debug\EntityFramework.SqlServer.xml
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\obj\Debug\IoTCenter.Core.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\obj\Debug\IoTCenter.Core.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Core\obj\Debug\IoTCenter.Core.pdb

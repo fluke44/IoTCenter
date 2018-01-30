@@ -1,0 +1,21 @@
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\obj\Debug\MulticastListener.csprojResolveAssemblyReference.cache
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\MulticastListener.exe.config
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\MulticastListener.exe
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\MulticastListener.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\EntityFramework.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\EntityFramework.SqlServer.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.DbAccess.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.Domain.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.Registration.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.Service.dll
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.DbAccess.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.Domain.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.Registration.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\IoTCenter.Service.pdb
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\EntityFramework.xml
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\bin\Debug\EntityFramework.SqlServer.xml
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\obj\Debug\MulticastListener.exe
+D:\Documents\Visual Studio 2015\Projects\IoTCenter\MulticastListener\obj\Debug\MulticastListener.pdb
+D:\git\IoTCenter\MulticastListener\bin\Debug\MulticastListener.exe.config
+D:\git\IoTCenter\MulticastListener\obj\Debug\MulticastListener.exe
+D:\git\IoTCenter\MulticastListener\obj\Debug\MulticastListener.pdb

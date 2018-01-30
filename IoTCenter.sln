@@ -1,0 +1,64 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.23107.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Domain", "IoTCenter.Domain\IoTCenter.Domain.csproj", "{13F1DF7E-A2EA-41C5-AE16-A9B77AA588D1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MulticastListener", "MulticastListener\MulticastListener.csproj", "{8958F6DF-667A-4C02-A3F0-8D15595C0369}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Registration", "IoTCenter.Registration\IoTCenter.Registration.csproj", "{BFC97E25-47DE-4319-8335-A0B76B5708EB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Service", "IoTCenter.Service\IoTCenter.Service.csproj", "{B449BA32-15A6-4920-9D91-16C90B3014F2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.DbAccess", "IoTCenter.DbAccess\IoTCenter.DbAccess.csproj", "{D0597AE1-0BF0-4DF0-9402-7DA48E54045C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Core", "IoTCenter.Core\IoTCenter.Core.csproj", "{196CBF00-AD66-418E-9997-BB836E9A69F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter", "IoTCenter\IoTCenter.csproj", "{9315B59A-E253-4BC6-BAE9-B43B80EF37D5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Devices", "IotCenter.Devices\IoTCenter.Devices.csproj", "{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{13F1DF7E-A2EA-41C5-AE16-A9B77AA588D1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13F1DF7E-A2EA-41C5-AE16-A9B77AA588D1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13F1DF7E-A2EA-41C5-AE16-A9B77AA588D1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13F1DF7E-A2EA-41C5-AE16-A9B77AA588D1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8958F6DF-667A-4C02-A3F0-8D15595C0369}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8958F6DF-667A-4C02-A3F0-8D15595C0369}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8958F6DF-667A-4C02-A3F0-8D15595C0369}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8958F6DF-667A-4C02-A3F0-8D15595C0369}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BFC97E25-47DE-4319-8335-A0B76B5708EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BFC97E25-47DE-4319-8335-A0B76B5708EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BFC97E25-47DE-4319-8335-A0B76B5708EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BFC97E25-47DE-4319-8335-A0B76B5708EB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B449BA32-15A6-4920-9D91-16C90B3014F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B449BA32-15A6-4920-9D91-16C90B3014F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B449BA32-15A6-4920-9D91-16C90B3014F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B449BA32-15A6-4920-9D91-16C90B3014F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D0597AE1-0BF0-4DF0-9402-7DA48E54045C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D0597AE1-0BF0-4DF0-9402-7DA48E54045C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D0597AE1-0BF0-4DF0-9402-7DA48E54045C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D0597AE1-0BF0-4DF0-9402-7DA48E54045C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{196CBF00-AD66-418E-9997-BB836E9A69F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{196CBF00-AD66-418E-9997-BB836E9A69F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{196CBF00-AD66-418E-9997-BB836E9A69F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{196CBF00-AD66-418E-9997-BB836E9A69F5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9315B59A-E253-4BC6-BAE9-B43B80EF37D5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9315B59A-E253-4BC6-BAE9-B43B80EF37D5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9315B59A-E253-4BC6-BAE9-B43B80EF37D5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9315B59A-E253-4BC6-BAE9-B43B80EF37D5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
