@@ -51,6 +51,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DataAccess\Writers\CommandQueueWriter.cs" />
     <Compile Include="IoTCenter\Devices\CachedDataView.cs" />
     <Compile Include="DataAccess\DataAccessBase.cs" />
     <Compile Include="DataAccess\Readers\DeviceReader.cs" />

@@ -24,15 +24,17 @@ namespace IoTCenter.Domain
             Mac = data[2];
             Ip = IPAddress.Parse(data[3]);
             Type = (DeviceType)System.Enum.Parse(typeof(DeviceType), data[4]);
+            Sleeping = Convert.ToBoolean(data[5]);
         }
 
-        public Device(string name, string mac, string ip, string type, bool registered)
+        public Device(string name, string mac, string ip, string type, bool registered, bool sleeping = false)
         {
             Name = name;
             Mac = mac;
             Ip = IPAddress.Parse(ip);
             Type = (DeviceType)System.Enum.Parse(typeof(DeviceType), type);
             Registered = registered;
+            Sleeping = sleeping;
         }
 
         public int Id { get; set; }
@@ -48,6 +50,8 @@ namespace IoTCenter.Domain
         public DeviceType Type { get; set; }
 
         public DateTime DateRegistered { get; set; }
+
+        public bool Sleeping { get; set; }
 
         public string ConfirmRegistrationMessage
         {

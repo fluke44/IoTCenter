@@ -51,8 +51,12 @@
   <ItemGroup>
     <Compile Include="Device.cs" />
     <Compile Include="Enum\DeviceType.cs" />
+    <Compile Include="Enum\UdpAction.cs" />
+    <Compile Include="Extensions.cs" />
     <Compile Include="Interface\IDevice.cs" />
+    <Compile Include="Interface\IDeviceRequest.cs" />
     <Compile Include="Interface\ISensor.cs" />
+    <Compile Include="Model\DeviceRequest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ReturnTypes\TempAndHum.cs" />
   </ItemGroup>

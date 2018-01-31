@@ -10,6 +10,9 @@ using IoTCenter.Domain;
 using System.Timers;
 using IoTCenter.Service;
 using IoTCenter.DbAccess.DataAccess.Writers;
+using IoTCenter.Domain.Model;
+using IoTCenter.Domain.Interface;
+using IoTCenter.Domain.Enum;
 
 namespace MulticastListener
 {
@@ -62,7 +65,7 @@ namespace MulticastListener
                     string receivedText = ASCIIEncoding.ASCII.GetString(receiveBytes);
                     Console.WriteLine(receivedText);
 
-                    ParseRequest(receivedText);
+                    ProcessRequest(receivedText, receivedIpEndPoint.Address);
                 }
             }
             catch(Exception ex)
@@ -76,31 +79,54 @@ namespace MulticastListener
             }        
         }
 
-        private static void ParseRequest(string text)
+        private static void ProcessRequest(string requestString, IPAddress ip)
         {
-            if (!Constants.UdpActions.Any(x => text.Contains(x))) return;
+            IDeviceRequest request = new DeviceRequest(requestString, ip);
+            IDevice device = request.Device;
 
-            Device device;
-            string[] data;
-            if (text.Contains("|")) data = text.Split('|'); else data = new string[] { text };
-            switch(data[0].ToUpper())
+            switch (request.Action)
             {
-                case "REGISTRATION_REQ":
-                    device = new Device(text) { Registered = true };
-                    _regHandler.RegisterDevice(device);
+                case UdpAction.RegistrationRequest:
+                    device.Registered = true;
+                    _regHandler.RegisterDevice(request.Device);
                     break;
-                case "PING":
-                    device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
+                case UdpAction.Ping:
+                    device.Registered = true;
                     _regHandler.RegisteredDevices.Add(device);
                     break;
-                case "DATA":
-                    device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
-                    _devWriter.LogData(Convert.ToString(data[1]), Convert.ToString(data[2]));
-                    break;
+                case UdpAction.Data:
                 default:
+                    device.Registered = true;
+                    _devWriter.LogData(device.Name, device.Mac);
                     break;
             }
         }
+
+        //private static void ParseRequest(string text)
+        //{
+        //    //if (!Constants.UdpActions.Any(x => text.Contains(x))) return;
+
+        //    Device device;
+        //    string[] data;
+        //    if (text.Contains("|")) data = text.Split('|'); else data = new string[] { text };
+        //    switch(data[0].ToUpper())
+        //    {
+        //        case "REGISTRATION_REQ":
+        //            device = new Device(text) { Registered = true };
+        //            _regHandler.RegisterDevice(device);
+        //            break;
+        //        case "PING":
+        //            device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
+        //            _regHandler.RegisteredDevices.Add(device);
+        //            break;
+        //        case "DATA":
+        //            device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
+        //            _devWriter.LogData(Convert.ToString(data[1]), Convert.ToString(data[2]));
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
 
         private static void PingDevices(object source, ElapsedEventArgs e)
         {

@@ -21,5 +21,7 @@ namespace IoTCenter.Domain.Interface
         DateTime DateRegistered { get; set; }
 
         string ConfirmRegistrationMessage { get; }
+
+        bool Sleeping { get; set; }
     }
 }
