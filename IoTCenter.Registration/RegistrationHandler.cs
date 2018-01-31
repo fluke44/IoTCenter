@@ -28,6 +28,8 @@ namespace IoTCenter.Registration
             writer.AddDevice(device);
 
             Udp.SendMessage(device.Ip, Domain.Device.Port, device.ConfirmRegistrationMessage);
+
+            //if(device.Sleeping) 
         }
 
         public void PingDevice(IDevice device)
