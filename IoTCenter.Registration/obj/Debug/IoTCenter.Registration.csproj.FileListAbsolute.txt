@@ -11,3 +11,16 @@ D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Registration\bin\De
 D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Registration\bin\Debug\EntityFramework.xml
 D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Registration\obj\Debug\IoTCenter.Registration.dll
 D:\Documents\Visual Studio 2015\Projects\IoTCenter\IoTCenter.Registration\obj\Debug\IoTCenter.Registration.pdb
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.Registration.dll
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.Registration.pdb
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.DbAccess.dll
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.Domain.dll
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.Service.dll
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\EntityFramework.dll
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.DbAccess.pdb
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.Domain.pdb
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\IoTCenter.Service.pdb
+D:\git\IoTCenter\IoTCenter.Registration\bin\Debug\EntityFramework.xml
+D:\git\IoTCenter\IoTCenter.Registration\obj\Debug\IoTCenter.Registration.csprojResolveAssemblyReference.cache
+D:\git\IoTCenter\IoTCenter.Registration\obj\Debug\IoTCenter.Registration.dll
+D:\git\IoTCenter\IoTCenter.Registration\obj\Debug\IoTCenter.Registration.pdb

@@ -1,15 +1,7 @@
 ﻿namespace IoTCenter.Domain.Interface
 {
-    public interface ISensor
+    public interface ISensor : IDevice
     {
-        string Command { get; }
-
-        bool DataReceived { get; }
-
-        IDevice Device { get; }
-
         string Read();
-
-        string ReadCache();
     }
 }

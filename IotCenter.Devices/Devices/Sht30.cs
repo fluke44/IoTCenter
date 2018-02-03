@@ -1,21 +1,19 @@
-﻿using IoTCenter.Domain.Interface;
+﻿using IoTCenter.Domain;
+using IoTCenter.Domain.Interface;
 
 namespace IoTCenter.Devices.Devices
 {
     public class Sht30 : SensorBase, ISensor
     {
-        public string Command => "data";
-
         private string[] _data = new string[2];
 
-        public Sht30(IDevice device)
-        {
-            _device = device;
-        }
+        protected override string DefaultCommand { get { return "/data"; } }
 
         public override string Read()
         {
-            return Read(Command);
+            var data = DevReader.GetMostRecentDeviceData(Mac);
+
+            return ParseData(data);
         }
 
         protected override string ParseData(string data)

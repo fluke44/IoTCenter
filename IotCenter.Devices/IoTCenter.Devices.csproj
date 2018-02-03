@@ -42,6 +42,8 @@
   <ItemGroup>
     <Compile Include="Devices\SensorBase.cs" />
     <Compile Include="Devices\Sht30.cs" />
+    <Compile Include="Handlers\DeviceCommander.cs" />
+    <Compile Include="Handlers\DeviceCommandQueueHandler.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

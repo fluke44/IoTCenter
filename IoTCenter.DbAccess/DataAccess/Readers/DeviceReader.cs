@@ -1,8 +1,10 @@
-﻿using System.Data;
+﻿using System;
+using System.Data;
 using System.Linq;
 using System.Collections.Generic;
 using IoTCenter.DbAccess.IoTCenter.Devices;
 using IoTCenter.DbAccess.IoTCenter;
+using System.Data.SqlClient;
 
 namespace IoTCenter.DbAccess.DataAccess.Readers
 {
@@ -42,6 +44,23 @@ namespace IoTCenter.DbAccess.DataAccess.Readers
 
                 return query.ToList();
             }
+        }
+
+        public string GetMostRecentDeviceData(string mac)
+        {
+            var command = new SqlCommand("Devices.spGetMostRecentDeviceData");
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@Mac", mac)
+            };
+
+            var result = ExecuteProcedureWithReturn(command, parameters);
+            if(result.Rows.Count > 0)
+            {
+                return Convert.ToString(result.Rows[0]["Data"]);
+            }
+
+            return string.Empty;
         }
     }
 }

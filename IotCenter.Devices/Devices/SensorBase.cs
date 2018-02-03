@@ -5,41 +5,24 @@ using System.Text;
 using IoTCenter.Domain.Interface;
 using IoTCenter.Service;
 using IoTCenter.DbAccess.DataAccess.Readers;
+using IoTCenter.Domain;
+using IoTCenter.Domain.Model;
 
 namespace IoTCenter.Devices.Devices
 {
-    public abstract class SensorBase
+    public abstract class SensorBase : Device
     {
-        protected IDevice _device;
+        protected readonly DeviceReader DevReader;
 
-        public bool DataReceived { get; set; }
+        protected SensorBase()
+        {
+            DevReader = new DeviceReader();
+        }
 
-        public IDevice Device { get { return _device; } }
+        protected abstract string DefaultCommand { get; }
 
         public abstract string Read();
 
         protected abstract string ParseData(string data);
-
-        public string Read(string command)
-        {
-            try
-            {
-                var data = Tcp.GetResponse(Device, command);
-                DataReceived = true;
-                return ParseData(data);
-            }
-            catch(Exception ex)
-            {
-                DataReceived = false;
-                return $"Error: {ex.Message}";
-            }
-        }
-
-        public string ReadCache()
-        {
-            var data = new DeviceReader().GetCachedData(Device.Mac);
-
-            return ParseData(data.FirstOrDefault().Data);
-        }
     }
 }

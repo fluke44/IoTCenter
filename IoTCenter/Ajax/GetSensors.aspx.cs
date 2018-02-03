@@ -26,14 +26,14 @@ namespace IoTCenter.Ajax
             {
                 if (device.Type == Domain.Enum.DeviceType.Sensor)
                 {
-                    Sensors.Add(new Sht30(device));
+                    Sensors.Add(device as Sht30);
                 }
             }
         }
 
         protected string GetCssClassForDevice(ISensor sensor)
         {
-            if(sensor.DataReceived)
+            if(!sensor.HasFailedCommand)
             {
                 return "device activeDevice";
             }

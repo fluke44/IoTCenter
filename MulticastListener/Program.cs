@@ -20,17 +20,31 @@ namespace MulticastListener
     {
         private const int Port = 8603;
 
-        private static RegistrationHandler _regHandler;
-        private static DeviceWriter _devWriter;
+        private static readonly RegistrationHandler _regHandler;
+        private static readonly DeviceWriter _devWriter;
+
+        static Program()
+        {
+            _regHandler = new RegistrationHandler();
+            _devWriter = new DeviceWriter();
+        }
 
         static void Main(string[] args)
         {
-            _regHandler = new RegistrationHandler();
-
             Timer timer = new Timer(30000);
             timer.Elapsed += new ElapsedEventHandler(PingDevices);
             timer.Start();
 
+            var client = StartUdpClient();
+
+            // Wait for any key to terminate application
+            Console.ReadKey();
+
+            client.Close();
+        }
+
+        private static UdpClient StartUdpClient()
+        {
             IPEndPoint remoteSender = new IPEndPoint(IPAddress.Any, 0);
 
             // Create UDP client
@@ -39,9 +53,7 @@ namespace MulticastListener
             // Start async receiving
             client.BeginReceive(new AsyncCallback(DataReceived), state);
 
-            // Wait for any key to terminate application
-            Console.ReadKey();
-            client.Close();
+            return client;
         }
 
         private static void DataReceived(IAsyncResult ar)
@@ -102,6 +114,11 @@ namespace MulticastListener
             }
         }
 
+        private static void PingDevices(object source, ElapsedEventArgs e)
+        {
+            _regHandler.HandleRegistrations();
+        }
+
         //private static void ParseRequest(string text)
         //{
         //    //if (!Constants.UdpActions.Any(x => text.Contains(x))) return;
@@ -127,10 +144,5 @@ namespace MulticastListener
         //            break;
         //    }
         //}
-
-        private static void PingDevices(object source, ElapsedEventArgs e)
-        {
-            _regHandler.HandleRegistrations();
-        }
     }
 }

@@ -7,6 +7,7 @@ namespace IoTCenter.Domain.Enum
 {
     public enum DeviceType
     {
+        Device,
         Sensor
     }
 }
