@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Linq;
 using System.Net;
+using IoTCenter.Domain;
 
 namespace IoTCenter.Registration
 {
@@ -27,7 +28,7 @@ namespace IoTCenter.Registration
             var writer = new DeviceWriter();
             writer.AddDevice(device);
 
-            Udp.SendMessage(device.Ip, Domain.Device.Port, device.ConfirmRegistrationMessage);
+            Udp.SendMessage(device.Ip, Device.Port, device.ConfirmRegistrationMessage);
 
             //if(device.Sleeping) 
         }
@@ -37,7 +38,7 @@ namespace IoTCenter.Registration
             //var writer = new DeviceWriter();
             //writer.AddDevice(device);
 
-            Udp.SendMessage(device.Ip, Domain.Device.Port, Domain.Device.Ping);
+            Udp.SendMessage(device.Ip, Device.Port, Device.Ping);
         }
 
         public void SetRegistrationStatus(IDevice device)
@@ -51,20 +52,24 @@ namespace IoTCenter.Registration
             var devices = new List<IDevice>();
             var reader = new DeviceReader();
             var data = onlyRegistered ? reader.GetRegisteredDevices() : reader.GetAllDevices();
+            //data = data.Where(x => !x.Sleeping).ToList();
 
-            foreach(var line in data)
-            {
-                devices.Add(new Domain.Device()
-                {
-                    Id = line.Id,
-                    Name = line.Name,
-                    Mac = line.Mac,
-                    Ip = IPAddress.Parse(line.Ip),
-                    Type = (DeviceType)Enum.Parse(typeof(DeviceType), line.Type, true),
-                    Registered = line.Registered,
-                    DateRegistered = line.DateRegistered.HasValue ? line.DateRegistered.Value : DateTime.MinValue
-                });
-            };
+            devices.AddRange(data);
+
+            //foreach(var line in data)
+            //{
+            //    devices.Add(new Device()
+            //    {
+            //        Id = line.DeviceId,
+            //        Name = line.Name,
+            //        Mac = line.Mac,
+            //        Ip = line.Ip,
+            //        Type = line.Type,
+            //        SubType = line.s
+            //        Registered = line.Registered,
+            //        DateRegistered = line.DateRegistered.HasValue ? line.DateRegistered.Value : DateTime.MinValue
+            //    });
+            //};
 
             //foreach(DataRow row in data.Rows)
             //{
@@ -86,7 +91,7 @@ namespace IoTCenter.Registration
 
         public void HandleRegistrations()
         {
-            var devices = GetDevices(false);
+            var devices = GetDevices(false).Where(x => !x.Sleeping);
 
             Parallel.ForEach<IDevice>(devices, (device) =>
             {

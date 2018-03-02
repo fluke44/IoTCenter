@@ -16,8 +16,9 @@ namespace IoTCenter.DbAccess.DataAccess.Writers
                 new SqlParameter("@Name", device.Name),
                 new SqlParameter("@Mac", device.Mac),
                 new SqlParameter("@Ip", device.Ip.ToString()),
-                new SqlParameter("@Type", device.Type),
-                new SqlParameter("@SubType", device.SubType)
+                new SqlParameter("@Type", device.Type.ToString()),
+                new SqlParameter("@SubType", device.SubType.ToString()),
+                new SqlParameter("@Sleeping", device.Sleeping ? 1 : 0)
             };
 
             ExecuteProcedure(command, parameters);

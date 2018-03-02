@@ -26,10 +26,12 @@ namespace IoTCenter.Domain.Interface
 
         string ConfirmRegistrationMessage { get; }
 
-        ICollection<DeviceCommand> Commands { get; }
+        ICollection<IDeviceCommand> CommandList { get; }
 
         bool Sleeping { get; set; }
 
         bool HasFailedCommand { get; }
+
+        bool IsOnline { get; }
     }
 }

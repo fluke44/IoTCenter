@@ -9,10 +9,19 @@
 <head runat="server">
     <title></title>
     <link rel="stylesheet" type="text/css" href="styles/default.css">
-    <script type="text/javascript" src="Scripts/jquery-3.2.1.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="Styles/jquery.qtip.min.css">
+
+    <script type="text/javascript" src="Scripts/jquery-1.10.2.min.js"></script>
+    <script type="text/javascript" src="Scripts/jquery.qtip.min.js"></script>
+    <script type="text/javascript" src="Scripts/chroma.js"></script>
+    
     <script type="text/javascript">
-        $(document).ready(function () {
-            GetSensors();
+        var tempScale;
+
+        $(document).ready(function ()
+        {
+            tempScale = chroma.scale(['008ae5', 'green', 'orange', 'red']).domain([-10, 15, 25, 40]).mode('lrgb');
+
             var tid = setInterval(GetSensors, 20000);
 
             $("#stopTimer").click(function () {
@@ -29,18 +38,39 @@
                 //},
                 type: 'post',
                 success: function (output) {
-                    $("#devices").html(output);
-                    $("#devices").fadeIn(200);
+                    $("#devices").fadeOut(50).html(output).fadeIn(50);
+                    SetDataColorByValue();
+                    $(".network").hide();
                 },
                 error: function (output) {
-                    $("#devices").fadeIn(200);
-                    alert(output);
+                    $("#error").fadeOut(50).html(output).fadeIn(50);
                 }
+            });
+            BindStyling();
+        }
+
+        function BindStyling() {
+            $('div[title]').qtip();
+        }
+
+        function ShowNetInfo(id) {
+            $("#device" + id + ".activeDevice.network").show();
+        }
+
+        function SetDataColorByValue() {
+            $("#devices div[id^='device']").each(function () {
+                var dataDiv = $(this).find(".data")[0];
+                var data = dataDiv.innerText;
+                var temp = data.substring(0, data.indexOf("°"));
+                if(temp != "") $(this).find(".data").css("color", tempScale(temp));
             });
         }
     </script>
 </head>
 <body>
+    <div id="error">
+        
+    </div>
     <form id="form1" runat="server">
         <input type="button" value="Stop" id="stopTimer" />
     <div id="devices">

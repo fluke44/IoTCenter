@@ -1,8 +1,10 @@
-﻿using System;
+﻿using IoTCenter.Domain.Enum;
+using IoTCenter.Domain.Interface;
+using System;
 
 namespace IoTCenter.Domain.Model
 {
-    public class DeviceCommand
+    public class DeviceCommand : IDeviceCommand
     {
         public int Id { get; set; }
 
@@ -10,7 +12,7 @@ namespace IoTCenter.Domain.Model
 
         public string Url { get; set; }
 
-        public string Status { get; set; }
+        public CommandStatus Status { get; set; }
 
         public DateTime DateAdded { get; set; }
 

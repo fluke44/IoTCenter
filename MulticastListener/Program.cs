@@ -13,6 +13,7 @@ using IoTCenter.DbAccess.DataAccess.Writers;
 using IoTCenter.Domain.Model;
 using IoTCenter.Domain.Interface;
 using IoTCenter.Domain.Enum;
+using IoTCenter.Devices.Handlers;
 
 namespace MulticastListener
 {
@@ -22,11 +23,13 @@ namespace MulticastListener
 
         private static readonly RegistrationHandler _regHandler;
         private static readonly DeviceWriter _devWriter;
+        private static readonly DeviceCommandQueueHandler _cmdHandler;
 
         static Program()
         {
             _regHandler = new RegistrationHandler();
             _devWriter = new DeviceWriter();
+            _cmdHandler = new DeviceCommandQueueHandler();
         }
 
         static void Main(string[] args)
@@ -75,14 +78,18 @@ namespace MulticastListener
                 {
                     // Convert data to ASCII and print in console
                     string receivedText = ASCIIEncoding.ASCII.GetString(receiveBytes);
-                    Console.WriteLine(receivedText);
+                    Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} :: {receivedText}");
 
                     ProcessRequest(receivedText, receivedIpEndPoint.Address);
                 }
             }
             catch(Exception ex)
             {
-                Console.Write(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(ex.StackTrace);
+                Console.ResetColor();
             }
             finally
             {
@@ -101,15 +108,18 @@ namespace MulticastListener
                 case UdpAction.RegistrationRequest:
                     device.Registered = true;
                     _regHandler.RegisterDevice(request.Device);
+                    _cmdHandler.RunPendingCommands(device);
                     break;
                 case UdpAction.Ping:
                     device.Registered = true;
                     _regHandler.RegisteredDevices.Add(device);
                     break;
                 case UdpAction.Data:
-                default:
                     device.Registered = true;
                     _devWriter.LogData(device.Name, device.Mac);
+                    break;
+                default:
+                    Console.WriteLine($"Unknown action from ip {ip}");
                     break;
             }
         }

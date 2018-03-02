@@ -14,7 +14,7 @@ namespace IoTCenter.DbAccess.IoTCenter
         {
         }
 
-        public virtual DbSet<Device> Device { get; set; }
+        //public virtual DbSet<Device> Device { get; set; }
         public virtual DbSet<Cache> Cache { get; set; }
         public virtual DbSet<CachedDataView> CachedDataView { get; set; }
 

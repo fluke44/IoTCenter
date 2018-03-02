@@ -12,7 +12,7 @@ namespace IoTCenter.DbAccess.IoTCenter.Devices
         [Key]
         [Column(Order = 0)]
         [DatabaseGenerated(DatabaseGeneratedOption.None)]
-        public int Id { get; set; }
+        public int DeviceId { get; set; }
 
         [Key]
         [Column(Order = 1)]

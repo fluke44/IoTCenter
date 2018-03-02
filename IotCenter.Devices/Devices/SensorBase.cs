@@ -7,22 +7,69 @@ using IoTCenter.Service;
 using IoTCenter.DbAccess.DataAccess.Readers;
 using IoTCenter.Domain;
 using IoTCenter.Domain.Model;
+using IoTCenter.Devices.Handlers;
+using IoTCenter.Domain.Enum;
 
 namespace IoTCenter.Devices.Devices
 {
     public abstract class SensorBase : Device
     {
         protected readonly DeviceReader DevReader;
+        private readonly DeviceCommandQueueHandler _queue;
 
-        protected SensorBase()
+        protected abstract ISensorData ParseData(ISensorData data);
+
+        protected SensorBase() : this(new Device())
         {
-            DevReader = new DeviceReader();
         }
 
-        protected abstract string DefaultCommand { get; }
+        protected SensorBase(IDevice device) : base(device)
+        {
+            DevReader = new DeviceReader();
+            _queue = new DeviceCommandQueueHandler();
+        }
 
-        public abstract string Read();
+        public ISensorData Read()
+        {
+            return Read(CommandName.Data);
+        }
 
-        protected abstract string ParseData(string data);
+        public ISensorData Read(CommandName commandName)
+        {
+            var data = new SensorData();
+
+            try
+            {
+                var command = Commands.Get(commandName);
+
+                if (Sleeping)
+                {
+                    _queue.AddCommand(Mac, command);
+                    return GetRecentData(command);
+                }
+                else
+                {
+                    new DeviceCommander().ExecuteCommand(this, command);
+                    if (!command.Success)
+                    {
+                        return GetRecentData(command);
+                    }
+
+                    return ParseData(new SensorData() { Data = command.Result, DateReceived = DateTime.Now });
+                }
+            }
+            catch(Exception ex)
+            {
+                data.Error = ex.Message;
+            }
+
+            return data;
+        }
+
+        private ISensorData GetRecentData(IDeviceCommand cmd)
+        {
+            var data = DevReader.GetMostRecentDeviceData(Mac, cmd.Command);
+            return ParseData(data);
+        }
     }
 }

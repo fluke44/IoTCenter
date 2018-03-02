@@ -14,7 +14,7 @@ namespace IoTCenter.Service
 {
     public static class Tcp
     {
-        public static string GetResponse(IDevice device, string command, int timeout = 5000)
+        public static string GetResponse(IDevice device, string command, int timeout = 10000)
         {
             string responseText = string.Empty;
             WebRequest request = WebRequest.Create($"http://{device.Ip}/{command}");

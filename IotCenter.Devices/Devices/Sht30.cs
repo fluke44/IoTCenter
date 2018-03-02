@@ -1,4 +1,4 @@
-﻿using IoTCenter.Domain;
+﻿using IoTCenter.Domain.Enum;
 using IoTCenter.Domain.Interface;
 
 namespace IoTCenter.Devices.Devices
@@ -7,23 +7,40 @@ namespace IoTCenter.Devices.Devices
     {
         private string[] _data = new string[2];
 
-        protected override string DefaultCommand { get { return "/data"; } }
-
-        public override string Read()
+        public Sht30(IDevice device) : base(device)
         {
-            var data = DevReader.GetMostRecentDeviceData(Mac);
-
-            return ParseData(data);
         }
 
-        protected override string ParseData(string data)
+        protected override ISensorData ParseData(ISensorData data)
         {
-            var pair = data.Split('|');
+            var pair = data.Data.Split('|');
+            switch(data.Command.ToLower())
+            {
+                case "data":
+                    data.Data = ParseTempAndHum(pair);
+                    break;
+                case "bat":
+                    data.Data = ParseBattery(pair);
+                    break;
+            }
 
-            _data[0] = pair[2];
-            _data[1] = pair[3];
+            return data;
+        }
 
-            return $"{_data[0]}|{_data[1]}";
+        private string ParseTempAndHum(string[] data)
+        {
+            if (data.Length >= 4)
+            {
+                _data[0] = data[2];
+                _data[1] = data[3];
+            }
+
+            return $"{_data[0]}°C | {_data[1]}%";
+        }
+
+        private string ParseBattery(string[] data)
+        {
+            return $"{data[2]}V";
         }
 
         public override string ToString()
@@ -31,7 +48,7 @@ namespace IoTCenter.Devices.Devices
             if (string.IsNullOrEmpty(_data[0]) && string.IsNullOrEmpty(_data[1]))
                 return "--";
 
-            return string.Format("Temp: {0}°C, Hum: {1}%", _data[0], _data[1]);
+            return $"{_data[0]}°C | {_data[1]}%";
         }
     }
 }

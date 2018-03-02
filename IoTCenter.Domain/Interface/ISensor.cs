@@ -1,7 +1,11 @@
-﻿namespace IoTCenter.Domain.Interface
+﻿using IoTCenter.Domain.Enum;
+
+namespace IoTCenter.Domain.Interface
 {
     public interface ISensor : IDevice
     {
-        string Read();
+        ISensorData Read();
+
+        ISensorData Read(CommandName commandName);
     }
 }

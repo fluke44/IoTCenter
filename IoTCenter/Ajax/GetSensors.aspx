@@ -2,15 +2,21 @@
 <%@ Import Namespace="IoTCenter.Domain" %>
 <%@ Import Namespace="IoTCenter.Domain.ReturnTypes" %>
 <%@ Import Namespace="IoTCenter.Domain.Interface" %>
+<%@ Import Namespace="IoTCenter.Domain.Enum" %>
 <%@ Import Namespace="System.Threading.Tasks" %>
 
-<% Parallel.ForEach(Sensors, dev =>
+<%  int i = 1;
+    Parallel.ForEach(Sensors, dev =>
     {
-    dev.Read();%>
-        <div class="<%=GetCssClassForDevice(dev) %>">
-            <h1><%=dev.Device.Name %></h1>
-            <div class="network"><%=dev.Device.Ip %> | <%=dev.Device.Mac %></div>
-            <div class="type"><%=dev.Device.Type %></div>
-            <div class="data"><%=dev.ToString() %></div>
+        var data = dev.Read();
+        var batLevel = dev.Read(CommandName.Bat);%>
+        <div class="<%=GetCssClassForDevice(dev, data) %>" id="device<%=i %>">
+            <div title="<%=batLevel.Data %>" class="<%=Battery(batLevel) %>"></div>
+            <div class="<%=IsSleeping(dev) %>"></div>
+            <div title="<%=dev.Ip %> | <%=dev.Mac %>" class="<%=GetCssClassForStatus(dev, data) %>"></div>
+            <h1><%=dev.Name %></h1>
+            <div class="data"><%=data.Data %></div>
+            <div class="date"><%=data.DateReceived %></div>
+            <%i++; %>
         </div>
     <% }); %>
