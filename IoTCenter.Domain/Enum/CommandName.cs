@@ -3,6 +3,9 @@
     public enum CommandName
     {
         Data,
-        Bat
+        Bat,
+        State,
+        SwitchOn,
+        SwitchOff
     }
 }

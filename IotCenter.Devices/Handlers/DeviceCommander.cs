@@ -1,7 +1,9 @@
-﻿using IoTCenter.DbAccess.DataAccess.Writers;
+﻿using IoTCenter.DbAccess.DataAccess.Readers;
+using IoTCenter.DbAccess.DataAccess.Writers;
 using IoTCenter.Domain.Enum;
 using IoTCenter.Domain.Interface;
 using IoTCenter.Domain.Model;
+using IoTCenter.Logging;
 using IoTCenter.Service;
 using System;
 using System.Linq;
@@ -10,13 +12,13 @@ namespace IoTCenter.Devices.Handlers
 {
     public class DeviceCommander
     {
-        //private readonly DeviceCommandQueueHandler _queue;
-        private readonly CommandQueueWriter _queueWriter;
+        private readonly DeviceCommandQueueHandler _queueHandler;
+        private readonly DeviceReader _devReader;
 
         public DeviceCommander()
         {
-            //_queue = new DeviceCommandQueueHandler();
-            _queueWriter = new CommandQueueWriter();
+            _queueHandler = new DeviceCommandQueueHandler();
+            _devReader = new DeviceReader();
         }
 
         public void ExecuteCommands(IDevice device)
@@ -40,38 +42,71 @@ namespace IoTCenter.Devices.Handlers
             ExecuteCommand(device, device.CommandList.FirstOrDefault());
         }
 
-        public void ExecuteCommand(IDevice device, IDeviceCommand cmd)
+        public IDeviceData ExecuteCommand(IDevice device, IDeviceCommand cmd)
         {
-            bool isAsyncCommand = cmd.Id != 0 && cmd.Status == CommandStatus.Pending;
+            return ExecuteCommandInternal(device, cmd);
+        }
+
+        public IDeviceData ExecuteCommandAsync(IDevice device, IDeviceCommand cmd)
+        {
+            _queueHandler.AddCommand(device.Mac, cmd);
+            return GetRecentData(device, cmd);
+        }
+
+        private IDeviceData ExecuteCommandInternal(IDevice device, IDeviceCommand cmd)
+        {
+            //bool isAsyncCommand = cmd.Id != 0 && cmd.Status == CommandStatus.Pending;
 
             try
             {
-                if (isAsyncCommand || cmd.Status == CommandStatus.Unknown)
-                {
-                    cmd.Result = Tcp.GetResponse(device, cmd.Url);
-                    cmd.Success = true;
+                cmd = _queueHandler.AddCommand(device.Mac, cmd);
+                cmd = Tcp.GetResponse(device, cmd);
+                cmd.Success = true;
 
-                    if(isAsyncCommand)
-                    {
-                        UpdateCommandStatus(cmd.Id, CommandStatus.Complete);
-                    }
-                }
+                cmd.Status = CommandStatus.Complete;
+                UpdateCommand(cmd);
             }
             catch (Exception ex)
             {
                 cmd.Error = ex;
                 cmd.Success = false;
 
-                if (isAsyncCommand)
-                {
-                    UpdateCommandStatus(cmd.Id, CommandStatus.Failed);
-                }
+                cmd.Status = CommandStatus.Failed;
+                UpdateCommand(cmd);
+
+                //if (isAsyncCommand)
+                //{
+                //    cmd.Status = CommandStatus.Failed;
+                //    UpdateCommand(cmd);
+                //}
+            }
+
+            return new DeviceData(cmd.Result, DateTime.Now, cmd.Command, cmd.Error?.Message);
+        }
+
+        public void UpdateCommand(IDeviceCommand command)
+        {
+            try
+            {
+                _queueHandler.UpdateCommandStatus(command);
+            }
+            catch(Exception ex)
+            {
+                ErrorHandler.Log(ex);
             }
         }
 
-        public void UpdateCommandStatus(int cmdId, CommandStatus status)
+        public void RunPendingCommands(IDevice device)
         {
-            _queueWriter.UpdateStatus(cmdId, status.ToString());
+            var pendingCommands = _queueHandler.GetPendingCommands(device);
+            var deviceToExecute = _queueHandler.GetDeviceWithCommands(pendingCommands);
+
+            ExecuteCommands(deviceToExecute);
+        }
+
+        public IDeviceData GetRecentData(IDevice device, IDeviceCommand cmd)
+        {
+            return _devReader.GetMostRecentDeviceData(device.Mac, cmd.Command);   
         }
     }
 }

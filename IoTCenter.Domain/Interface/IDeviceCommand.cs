@@ -1,5 +1,6 @@
 ﻿using IoTCenter.Domain.Enum;
 using System;
+using System.Net;
 
 namespace IoTCenter.Domain.Interface
 {
@@ -20,5 +21,9 @@ namespace IoTCenter.Domain.Interface
         bool Success { get; set; }
 
         Exception Error { get; set; }
+
+        long ResponseTime { get; set; }
+
+        HttpStatusCode StatusCode { get; set; }
     }
 }

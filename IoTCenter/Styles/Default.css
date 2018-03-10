@@ -11,9 +11,18 @@
     min-width: 12em;
 }
 
+.tempSensor {
+    background: url(../../img/temp.png) no-repeat top right;
+    background-size: auto;
+}
+
+.toggle {
+    background: linear-gradient(white, lightgrey);
+}
+
 .activeDevice {
     /*background: linear-gradient(#6cff00, #58ce01);*/
-    background: linear-gradient(white, lightgrey);
+    /*background: linear-gradient(white, lightgrey);*/
     border: 3px solid #00ff00;
 }
 
@@ -109,6 +118,19 @@
     text-align: center;
     margin-top: 15px;
     margin-bottom: 15px;
+}
+
+.toggle .data {
+    margin-top: 0;
+	margin-bottom: 0;
+}
+
+.dataError {
+    min-width: 20px;
+    min-height: 15px;
+    background: url("../../img/exclamation.png") center no-repeat;
+    float: right;
+    margin: 0 3px 0 3px;
 }
 
 #error {

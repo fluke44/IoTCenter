@@ -11,7 +11,7 @@ namespace IoTCenter.Devices.Devices
         {
         }
 
-        protected override ISensorData ParseData(ISensorData data)
+        protected override IDeviceData ParseData(IDeviceData data)
         {
             var pair = data.Data.Split('|');
             switch(data.Command.ToLower())

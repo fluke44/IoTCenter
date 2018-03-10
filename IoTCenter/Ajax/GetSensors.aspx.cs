@@ -35,10 +35,20 @@ namespace IoTCenter.Ajax
             }
         }
 
-        protected string GetCssClassForDevice(ISensor sensor, ISensorData data)
+        protected string GetCssClassForDevice(ISensor sensor, IDeviceData data)
         {
             var status = sensor.IsOnline && data.Success ? "activeDevice" : "inactiveDevice";
-            return $"device {status}";
+            var type = string.Empty;
+            switch(sensor.SubType)
+            {
+                case Domain.Enum.DeviceSubType.Sht30:
+                    type = "tempSensor";
+                    break;
+                case Domain.Enum.DeviceSubType.Shield:
+                    type = "toggle";
+                    break;
+            }
+            return $"device {status} {type}";
         }
 
         protected string IsSleeping(ISensor sensor)
@@ -46,12 +56,12 @@ namespace IoTCenter.Ajax
             return sensor.Sleeping ? "sleeping" : "";
         }
 
-        protected string GetCssClassForStatus(ISensor sensor, ISensorData data)
+        protected string GetCssClassForStatus(ISensor sensor, IDeviceData data)
         {
             return sensor.IsOnline ? "online" : "offline";
         }
 
-        protected string Battery(ISensorData data)
+        protected string Battery(IDeviceData data)
         {
             if (data.Data == null) return string.Empty;
 

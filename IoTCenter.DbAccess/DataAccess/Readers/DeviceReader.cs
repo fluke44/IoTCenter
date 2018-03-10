@@ -17,12 +17,6 @@ namespace IoTCenter.DbAccess.DataAccess.Readers
     {
         public ICollection<Device> GetRegisteredDevices()
         {
-            //using(var db = new IoTCenterContext())
-            //{
-            //    var query = from devices in db.Device where devices.Registered select devices;
-            //    return query.ToList();
-            //}
-
             var list = new List<Device>();
 
             var command = new SqlCommand("SELECT * FROM Devices.vwDevices WHERE Registered = 1");
@@ -38,11 +32,6 @@ namespace IoTCenter.DbAccess.DataAccess.Readers
 
         public ICollection<Device> GetAllDevices()
         {
-            //using (var db = new IoTCenterContext())
-            //{
-            //    var query = from devices in db.Device select devices;
-            //    return query.ToList();
-            //}
             var list = new List<Device>();
 
             var command = new SqlCommand("SELECT * FROM Devices.vwDevices");
@@ -54,6 +43,23 @@ namespace IoTCenter.DbAccess.DataAccess.Readers
             }
 
             return list;
+        }
+
+        public IDevice GetDeviceById(int id)
+        {
+            var command = new SqlCommand("SELECT * FROM Devices.vwDevices where DeviceId = @DeviceId");
+            SqlParameter[] parameters =
+            {
+                new SqlParameter("@DeviceId", id)
+            };
+            var dt = ExecuteQuery(command, parameters);
+
+            foreach (DataRow row in dt.Rows)
+            {
+                return new Device(row);
+            }
+
+            return new Device();
         }
 
         public ICollection<CachedDataView> GetCachedData(string mac)
@@ -70,9 +76,9 @@ namespace IoTCenter.DbAccess.DataAccess.Readers
             }
         }
 
-        public ISensorData GetMostRecentDeviceData(string mac, string command)
+        public IDeviceData GetMostRecentDeviceData(string mac, string command)
         {
-            var data = new SensorData();
+            var data = new DeviceData();
 
             var cmd = new SqlCommand("Devices.spGetMostRecentDeviceData");
             SqlParameter[] parameters =

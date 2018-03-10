@@ -11,6 +11,7 @@ using System.Threading;
 using System.Linq;
 using System.Net;
 using IoTCenter.Domain;
+using IoTCenter.Logging;
 
 namespace IoTCenter.Registration
 {
@@ -25,97 +26,101 @@ namespace IoTCenter.Registration
 
         public void RegisterDevice(IDevice device)
         {
-            var writer = new DeviceWriter();
-            writer.AddDevice(device);
+            try
+            {
+                var writer = new DeviceWriter();
+                writer.AddDevice(device);
 
-            Udp.SendMessage(device.Ip, Device.Port, device.ConfirmRegistrationMessage);
-
-            //if(device.Sleeping) 
+                Udp.SendMessage(device.Ip, Device.Port, device.ConfirmRegistrationMessage);
+            }
+            catch(Exception ex)
+            {
+                ErrorHandler.Log(ex);
+                throw;
+            }
         }
 
         public void PingDevice(IDevice device)
         {
-            //var writer = new DeviceWriter();
-            //writer.AddDevice(device);
-
-            Udp.SendMessage(device.Ip, Device.Port, Device.Ping);
+            try
+            {
+                Udp.SendMessage(device.Ip, Device.Port, Device.Ping);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Log(ex);
+                throw;
+            }
         }
 
         public void SetRegistrationStatus(IDevice device)
         {
-            var writer = new DeviceWriter();
-            writer.RegisterDevice(device);
+            try
+            {
+                var writer = new DeviceWriter();
+                writer.RegisterDevice(device);
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Log(ex);
+                throw;
+            }
         }
 
         public ICollection<IDevice> GetDevices(bool onlyRegistered)
         {
-            var devices = new List<IDevice>();
-            var reader = new DeviceReader();
-            var data = onlyRegistered ? reader.GetRegisteredDevices() : reader.GetAllDevices();
-            //data = data.Where(x => !x.Sleeping).ToList();
+            try
+            {
+                var devices = new List<IDevice>();
+                var reader = new DeviceReader();
+                var data = onlyRegistered ? reader.GetRegisteredDevices() : reader.GetAllDevices();
 
-            devices.AddRange(data);
+                devices.AddRange(data);
 
-            //foreach(var line in data)
-            //{
-            //    devices.Add(new Device()
-            //    {
-            //        Id = line.DeviceId,
-            //        Name = line.Name,
-            //        Mac = line.Mac,
-            //        Ip = line.Ip,
-            //        Type = line.Type,
-            //        SubType = line.s
-            //        Registered = line.Registered,
-            //        DateRegistered = line.DateRegistered.HasValue ? line.DateRegistered.Value : DateTime.MinValue
-            //    });
-            //};
-
-            //foreach(DataRow row in data.Rows)
-            //{
-            //    var device = new Device(
-            //        Convert.ToString(row["Name"]),
-            //        Convert.ToString(row["Mac"]),
-            //        Convert.ToString(row["Ip"]),
-            //        Convert.ToString(row["Type"]),
-            //        Convert.ToBoolean(row["Registered"])
-            //    );
-            //    var date = row["DateRegistered"];
-            //    if(date != DBNull.Value) device.DateRegistered = Convert.ToDateTime(date);
-
-            //    devices.Add(device);
-            //}
-
-            return devices;
+                return devices;
+            }
+            catch (Exception ex)
+            {
+                ErrorHandler.Log(ex);
+                throw;
+            }
         }
 
         public void HandleRegistrations()
         {
-            var devices = GetDevices(false).Where(x => !x.Sleeping);
-
-            Parallel.ForEach<IDevice>(devices, (device) =>
+            try
             {
-                PingDevice(device);
-            });
+                var devices = GetDevices(false).Where(x => !x.Sleeping);
 
-            Thread.Sleep(5000);
+                Parallel.ForEach(devices, (device) =>
+                {
+                    PingDevice(device);
+                });
 
-            var unresponsiveDevices = devices.Where(x => !RegisteredDevices.Any(
-                y => y.Mac.Equals(x.Mac, StringComparison.OrdinalIgnoreCase)));
+                Thread.Sleep(5000);
 
-            foreach (var device in RegisteredDevices)
-            {
-                device.Registered = true;
-                SetRegistrationStatus(device);
+                var unresponsiveDevices = devices.Where(x => !RegisteredDevices.Any(
+                    y => y.Mac.Equals(x.Mac, StringComparison.OrdinalIgnoreCase)));
+
+                foreach (var device in RegisteredDevices)
+                {
+                    device.Registered = true;
+                    SetRegistrationStatus(device);
+                }
+
+                foreach (var device in unresponsiveDevices)
+                {
+                    device.Registered = false;
+                    SetRegistrationStatus(device);
+                }
+
+                RegisteredDevices.Clear();
             }
-
-            foreach (var device in unresponsiveDevices)
+            catch (Exception ex)
             {
-                device.Registered = false;
-                SetRegistrationStatus(device);
+                ErrorHandler.Log(ex);
+                throw;
             }
-
-            RegisteredDevices.Clear();
         }
     }
 }

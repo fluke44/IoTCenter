@@ -29,7 +29,8 @@ namespace IoTCenter.Domain
             device.SubType.ToString(),
             device.Registered,
             device.DateRegistered.ToString(CultureInfo.CurrentCulture),
-            device.Sleeping
+            device.Sleeping,
+            device.Id
             )
         {
         }
@@ -54,11 +55,12 @@ namespace IoTCenter.Domain
             Convert.ToString(row["DeviceSubType"]),
             Convert.ToInt16(row["Registered"]) == 1 ? true : false,
             Convert.ToString(row["DateRegistered"]),
-            Convert.ToInt16(row["Sleeping"]) == 1 ? true : false)
+            Convert.ToInt16(row["Sleeping"]) == 1 ? true : false,
+            Convert.ToInt32(row["DeviceId"]))
         {
         }
 
-        public Device(string name, string mac, string ip, string type, string subType, bool registered, string dateRegistered, bool sleeping = false) : this()
+        public Device(string name, string mac, string ip, string type, string subType, bool registered, string dateRegistered, bool sleeping = false, int id = 0) : this()
         {
             CommandList = new List<IDeviceCommand>();
             Name = name;
@@ -70,6 +72,7 @@ namespace IoTCenter.Domain
             DateRegistered = string.IsNullOrEmpty(dateRegistered) ? DateTime.MinValue : Convert.ToDateTime(dateRegistered, CultureInfo.CurrentCulture);
             //DateRegistered = DateTime.ParseExact(dateRegistered, Constants.DateTimeFormat, CultureInfo.InvariantCulture);
             Sleeping = sleeping;
+            Id = id;
         }
 
         public int Id { get; set; }

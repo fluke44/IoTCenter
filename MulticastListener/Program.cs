@@ -14,6 +14,7 @@ using IoTCenter.Domain.Model;
 using IoTCenter.Domain.Interface;
 using IoTCenter.Domain.Enum;
 using IoTCenter.Devices.Handlers;
+using IoTCenter.Logging;
 
 namespace MulticastListener
 {
@@ -23,13 +24,13 @@ namespace MulticastListener
 
         private static readonly RegistrationHandler _regHandler;
         private static readonly DeviceWriter _devWriter;
-        private static readonly DeviceCommandQueueHandler _cmdHandler;
+        private static readonly DeviceCommander _cmdHandler;
 
         static Program()
         {
             _regHandler = new RegistrationHandler();
             _devWriter = new DeviceWriter();
-            _cmdHandler = new DeviceCommandQueueHandler();
+            _cmdHandler = new DeviceCommander();
         }
 
         static void Main(string[] args)
@@ -78,6 +79,7 @@ namespace MulticastListener
                 {
                     // Convert data to ASCII and print in console
                     string receivedText = ASCIIEncoding.ASCII.GetString(receiveBytes);
+                    EventLogger.LogIncomingMessage(receivedText);
                     Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} :: {receivedText}");
 
                     ProcessRequest(receivedText, receivedIpEndPoint.Address);
@@ -85,6 +87,7 @@ namespace MulticastListener
             }
             catch(Exception ex)
             {
+                //ErrorHandler.Log(ex);
                 Console.ForegroundColor = ConsoleColor.Red;
                 Console.WriteLine(ex.Message);
                 Console.ForegroundColor = ConsoleColor.Yellow;

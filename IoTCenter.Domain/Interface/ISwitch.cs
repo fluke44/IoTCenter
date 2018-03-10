@@ -2,10 +2,10 @@
 
 namespace IoTCenter.Domain.Interface
 {
-    public interface ISensor : IDevice
+    public interface ISwitch : IDevice
     {
-        IDeviceData Read();
-
         IDeviceData Read(CommandName commandName);
+
+        void Write(CommandName commandName);
     }
 }

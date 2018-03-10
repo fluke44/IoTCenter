@@ -52,6 +52,29 @@ namespace IoTCenter.DbAccess.DataAccess
             }
         }
 
+        protected int ExecuteProcedureWithReturnValue(SqlCommand command, SqlParameter[] parameters)
+        {
+            var dt = new DataTable();
+
+            using (var conn = new SqlConnection(ConnectionString))
+            {
+                
+                command.CommandType = CommandType.StoredProcedure;
+                command.Parameters.Clear();
+                command.Parameters.AddRange(parameters);
+
+                var returnParameter = command.Parameters.Add("@ReturnVal", SqlDbType.Int);
+                returnParameter.Direction = ParameterDirection.ReturnValue;
+
+                command.Connection = conn;
+
+                conn.Open();
+                var reader = command.ExecuteReader();
+
+                return (int)returnParameter.Value;
+            }
+        }
+
         protected DataTable ExecuteQuery(SqlCommand command, SqlParameter[] parameters)
         {
             using (var conn = new SqlConnection(ConnectionString))

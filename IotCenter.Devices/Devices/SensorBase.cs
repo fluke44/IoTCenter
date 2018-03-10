@@ -12,64 +12,24 @@ using IoTCenter.Domain.Enum;
 
 namespace IoTCenter.Devices.Devices
 {
-    public abstract class SensorBase : Device
+    public abstract class SensorBase : DeviceBase
     {
-        protected readonly DeviceReader DevReader;
-        private readonly DeviceCommandQueueHandler _queue;
-
-        protected abstract ISensorData ParseData(ISensorData data);
-
         protected SensorBase() : this(new Device())
         {
         }
 
         protected SensorBase(IDevice device) : base(device)
         {
-            DevReader = new DeviceReader();
-            _queue = new DeviceCommandQueueHandler();
         }
 
-        public ISensorData Read()
+        public IDeviceData Read()
         {
-            return Read(CommandName.Data);
+            return Execute(CommandName.Data);
         }
 
-        public ISensorData Read(CommandName commandName)
+        public IDeviceData Read(CommandName commandName)
         {
-            var data = new SensorData();
-
-            try
-            {
-                var command = Commands.Get(commandName);
-
-                if (Sleeping)
-                {
-                    _queue.AddCommand(Mac, command);
-                    return GetRecentData(command);
-                }
-                else
-                {
-                    new DeviceCommander().ExecuteCommand(this, command);
-                    if (!command.Success)
-                    {
-                        return GetRecentData(command);
-                    }
-
-                    return ParseData(new SensorData() { Data = command.Result, DateReceived = DateTime.Now });
-                }
-            }
-            catch(Exception ex)
-            {
-                data.Error = ex.Message;
-            }
-
-            return data;
-        }
-
-        private ISensorData GetRecentData(IDeviceCommand cmd)
-        {
-            var data = DevReader.GetMostRecentDeviceData(Mac, cmd.Command);
-            return ParseData(data);
+            return Execute(commandName);
         }
     }
 }

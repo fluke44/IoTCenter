@@ -118,6 +118,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Ajax\GetSensors.aspx" />
+    <Content Include="Ajax\Switches.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -191,6 +192,13 @@
     <Compile Include="Ajax\GetSensors.aspx.designer.cs">
       <DependentUpon>GetSensors.aspx</DependentUpon>
     </Compile>
+    <Compile Include="Ajax\Switches.aspx.cs">
+      <DependentUpon>Switches.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\Switches.aspx.designer.cs">
+      <DependentUpon>Switches.aspx</DependentUpon>
+    </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
       <DependentUpon>About.aspx</DependentUpon>
@@ -248,6 +256,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IoTCenter.DbAccess\IoTCenter.DbAccess.csproj">
+      <Project>{d0597ae1-0bf0-4df0-9402-7da48e54045c}</Project>
+      <Name>IoTCenter.DbAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IotCenter.Devices\IoTCenter.Devices.csproj">
       <Project>{76aee0ca-d3f8-46a2-bd13-62d067f4662d}</Project>
       <Name>IoTCenter.Devices</Name>

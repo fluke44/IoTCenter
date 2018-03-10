@@ -17,6 +17,9 @@
             <h1><%=dev.Name %></h1>
             <div class="data"><%=data.Data %></div>
             <div class="date"><%=data.DateReceived %></div>
+            <%if (!data.Success) { %>
+            <div class="dataError" title="<%=data.Error %>"></div>
+            <%} %>
             <%i++; %>
         </div>
     <% }); %>

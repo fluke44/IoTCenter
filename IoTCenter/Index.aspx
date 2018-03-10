@@ -17,17 +17,30 @@
     
     <script type="text/javascript">
         var tempScale;
+        var tid;
+		var loadingData;
 
         $(document).ready(function ()
         {
             tempScale = chroma.scale(['008ae5', 'green', 'orange', 'red']).domain([-10, 15, 25, 40]).mode('lrgb');
 
-            var tid = setInterval(GetSensors, 20000);
+            LoadDevices();
 
+            $("#load").click(function () {
+                LoadDevices();
+            })
+            $("#startTimer").click(function () {
+                tid = setInterval(LoadDevices, 30000);
+            });
             $("#stopTimer").click(function () {
                 clearInterval(tid);
             });
         });
+
+        function LoadDevices() {
+            GetSensors();
+            GetSwitches();
+        }
 
         function GetSensors() {
             $.ajax({
@@ -40,17 +53,72 @@
                 success: function (output) {
                     $("#devices").fadeOut(50).html(output).fadeIn(50);
                     SetDataColorByValue();
-                    $(".network").hide();
+                    BindStyling();
                 },
                 error: function (output) {
                     $("#error").fadeOut(50).html(output).fadeIn(50);
                 }
             });
-            BindStyling();
+            
         }
 
+        function GetSwitches() {
+            $.ajax({
+                url: 'Ajax/Switches.aspx',
+                //data: {
+                //    action: 'loadFbGalleryItems',
+                //    photoGalleryId: id
+                //},
+                type: 'post',
+                success: function (output) {
+                    $("#switches").html(output);
+                    SetDataColorByValue();
+                    BindStyling();
+                },
+                error: function (output) {
+                    $("#error").fadeOut(50).html(output).fadeIn(50);
+                }
+            });
+        }
+
+        function Switch(id, state) {
+			FadeOut($("#switch_" + id));
+            $.ajax({
+				url: 'Ajax/Switches.aspx',
+                data: {
+                    action: 'switchState',
+                    deviceId: id,
+                    state: state
+                },
+                type: 'get',
+				dataType: 'text',
+                success: function (output) {
+                    GetSwitches();
+                },
+                error: function (output) {
+                    $("#error").html(output);
+                },
+				complete: function () {
+					FadeIn($("#switch_" + id));
+				}
+            });
+        }
+		
+		function FadeOut(element) {
+			element.fadeTo(100, 0.4);
+		}
+		
+		function FadeIn(element) {
+			element.fadeIn(300);
+		}
+
         function BindStyling() {
-            $('div[title]').qtip();
+            $('div[title]').qtip({
+                style: { classes: 'qtip-rounded' }
+            });
+            $('.dataError[title]').qtip({
+                style: { classes: 'qtip-red' }
+            });
         }
 
         function ShowNetInfo(id) {
@@ -72,10 +140,15 @@
         
     </div>
     <form id="form1" runat="server">
+        <input type="button" value="Load" id="load" />
+        <input type="button" value="Start" id="startTimer" />
         <input type="button" value="Stop" id="stopTimer" />
-    <div id="devices">
-        
-    </div>
+    
+        <div id="devices">
+        </div>
+
+        <div id="switches"> 
+        </div>
     </form>
 </body>
 </html>
