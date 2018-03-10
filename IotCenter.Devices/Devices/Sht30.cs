@@ -1,31 +1,46 @@
-﻿using IoTCenter.Domain.Interface;
+﻿using IoTCenter.Domain.Enum;
+using IoTCenter.Domain.Interface;
 
 namespace IoTCenter.Devices.Devices
 {
     public class Sht30 : SensorBase, ISensor
     {
-        public string Command => "data";
-
         private string[] _data = new string[2];
 
-        public Sht30(IDevice device)
+        public Sht30(IDevice device) : base(device)
         {
-            _device = device;
         }
 
-        public override string Read()
+        protected override IDeviceData ParseData(IDeviceData data)
         {
-            return Read(Command);
+            var pair = data.Data.Split('|');
+            switch(data.Command.ToLower())
+            {
+                case "data":
+                    data.Data = ParseTempAndHum(pair);
+                    break;
+                case "bat":
+                    data.Data = ParseBattery(pair);
+                    break;
+            }
+
+            return data;
         }
 
-        protected override string ParseData(string data)
+        private string ParseTempAndHum(string[] data)
         {
-            var pair = data.Split('|');
+            if (data.Length >= 4)
+            {
+                _data[0] = data[2];
+                _data[1] = data[3];
+            }
 
-            _data[0] = pair[2];
-            _data[1] = pair[3];
+            return $"{_data[0]}°C | {_data[1]}%";
+        }
 
-            return $"{_data[0]}|{_data[1]}";
+        private string ParseBattery(string[] data)
+        {
+            return $"{data[2]}V";
         }
 
         public override string ToString()
@@ -33,7 +48,7 @@ namespace IoTCenter.Devices.Devices
             if (string.IsNullOrEmpty(_data[0]) && string.IsNullOrEmpty(_data[1]))
                 return "--";
 
-            return string.Format("Temp: {0}°C, Hum: {1}%", _data[0], _data[1]);
+            return $"{_data[0]}°C | {_data[1]}%";
         }
     }
 }

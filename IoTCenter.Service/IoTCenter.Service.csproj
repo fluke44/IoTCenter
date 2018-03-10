@@ -40,8 +40,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommandQueueHandler.cs" />
-    <Compile Include="Constants.cs" />
     <Compile Include="Tcp.cs" />
     <Compile Include="Udp.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

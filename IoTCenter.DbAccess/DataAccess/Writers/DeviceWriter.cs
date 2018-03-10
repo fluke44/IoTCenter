@@ -9,14 +9,15 @@ namespace IoTCenter.DbAccess.DataAccess.Writers
     {
         public void AddDevice(IDevice device)
         {
-            //new IoTCenterEntities().spAddDevice(device.Name, device.Mac, device.Ip.ToString(), device.Type.ToString());
             var command = new SqlCommand("Devices.spAddDevice");
             SqlParameter[] parameters =
             {
                 new SqlParameter("@Name", device.Name),
                 new SqlParameter("@Mac", device.Mac),
                 new SqlParameter("@Ip", device.Ip.ToString()),
-                new SqlParameter("@Type", device.Type)
+                new SqlParameter("@Type", device.Type.ToString()),
+                new SqlParameter("@SubType", device.SubType.ToString()),
+                new SqlParameter("@Sleeping", device.Sleeping ? 1 : 0)
             };
 
             ExecuteProcedure(command, parameters);
@@ -24,7 +25,6 @@ namespace IoTCenter.DbAccess.DataAccess.Writers
 
         public void RegisterDevice(IDevice device)
         {
-            //new IoTCenterEntities().spRegisterDevice(device.Mac, device.Registered);
             var command = new SqlCommand("Devices.spRegisterDevice");
             SqlParameter[] parameters =
             {

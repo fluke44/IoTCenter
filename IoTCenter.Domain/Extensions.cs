@@ -11,7 +11,7 @@ namespace IoTCenter.Domain
 {
     public static class Extensions
     {
-        public static string ToDescription(this UdpAction action) 
+        public static string ToDescription<T>(this T action) where T : struct
         {
             FieldInfo fi = action.GetType().GetField(action.ToString());
             DescriptionAttribute[] attributes = (DescriptionAttribute[])fi.GetCustomAttributes(typeof(DescriptionAttribute), false);
@@ -25,9 +25,9 @@ namespace IoTCenter.Domain
             }
         }
 
-        public static UdpAction FromDescription(this string description)
+        public static T FromDescription<T>(this string description) where T : struct
         {
-            return GetValueFromDescription<UdpAction>(description);
+            return GetValueFromDescription<T>(description);
         }
 
         public static T GetValueFromDescription<T>(string description)

@@ -2,6 +2,7 @@
 using System.Linq;
 using IoTCenter.Domain.Enum;
 using System.Net;
+using System;
 
 namespace IoTCenter.Domain.Model
 {
@@ -34,9 +35,24 @@ namespace IoTCenter.Domain.Model
                 return;
             }
 
-            Action = data[0].FromDescription();
-            Device = new Device(request);
-            Device.Ip = _ip;
+            Action = data[0].FromDescription<UdpAction>();
+
+            switch(Action)
+            {
+                case UdpAction.RegistrationRequest:
+                    Device = new Device(request);
+                    Device.Ip = _ip;
+                    break;
+                case UdpAction.Ping:
+                    Device = new Device();
+                    Device.Mac = Convert.ToString(data[1]);
+                    Device.Ip = _ip;
+                    break;
+                default:
+                    Device = new Device();
+                    Device.Ip = _ip;
+                    break;
+            }
         }
     }
 }

@@ -19,6 +19,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter", "IoTCenter\IoTC
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Devices", "IotCenter.Devices\IoTCenter.Devices.csproj", "{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IoTCenter.Logging", "IoTCenter.Logging\IoTCenter.Logging.csproj", "{6895FBEF-E09D-4F03-94AF-1A80712BBD0E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -57,6 +59,10 @@ Global
 		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{76AEE0CA-D3F8-46A2-BD13-62D067F4662D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6895FBEF-E09D-4F03-94AF-1A80712BBD0E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6895FBEF-E09D-4F03-94AF-1A80712BBD0E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6895FBEF-E09D-4F03-94AF-1A80712BBD0E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6895FBEF-E09D-4F03-94AF-1A80712BBD0E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
