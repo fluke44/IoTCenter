@@ -52,6 +52,10 @@
       <Project>{13f1df7e-a2ea-41c5-ae16-a9b77aa588d1}</Project>
       <Name>IoTCenter.Domain</Name>
     </ProjectReference>
+    <ProjectReference Include="..\IoTCenter.Logging\IoTCenter.Logging.csproj">
+      <Project>{6895fbef-e09d-4f03-94af-1a80712bbd0e}</Project>
+      <Name>IoTCenter.Logging</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IoTCenter.Service\IoTCenter.Service.csproj">
       <Project>{b449ba32-15a6-4920-9d91-16c90b3014f2}</Project>
       <Name>IoTCenter.Service</Name>

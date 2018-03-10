@@ -9,20 +9,27 @@ using IoTCenter.Domain.Interface;
 using IoTCenter.Domain;
 using System.IO;
 using IoTCenter.DbAccess.DataAccess.Writers;
+using System.Diagnostics;
 
 namespace IoTCenter.Service
 {
     public static class Tcp
     {
-        public static string GetResponse(IDevice device, string command, int timeout = 5000)
+        public static IDeviceCommand GetResponse(IDevice device, IDeviceCommand cmd, int timeout = 10000)
         {
             string responseText = string.Empty;
-            WebRequest request = WebRequest.Create($"http://{device.Ip}/{command}");
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create($"http://{device.Ip}/{cmd.Url}");
             request.Timeout = timeout;
             request.Credentials = CredentialCache.DefaultCredentials;
 
-            using (WebResponse response = request.GetResponse())
+            var sw = new Stopwatch();
+            sw.Start();
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
             {
+                sw.Stop();
+                cmd.ResponseTime = sw.ElapsedMilliseconds;
+                cmd.StatusCode = response.StatusCode;
+
                 Stream dataStream = response.GetResponseStream();
                 using (StreamReader reader = new StreamReader(dataStream))
                 {
@@ -31,7 +38,9 @@ namespace IoTCenter.Service
                 };
             };
 
-            return responseText;
+            cmd.Result = responseText;
+
+            return cmd;
         }
     }
 }

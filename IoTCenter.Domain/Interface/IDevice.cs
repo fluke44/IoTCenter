@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Net;
 using IoTCenter.Domain.Enum;
+using System.Collections.Generic;
+using IoTCenter.Domain.Model;
 
 namespace IoTCenter.Domain.Interface
 {
@@ -18,8 +20,18 @@ namespace IoTCenter.Domain.Interface
 
         DeviceType Type { get; set; }
 
+        DeviceSubType SubType { get; set; }
+
         DateTime DateRegistered { get; set; }
 
         string ConfirmRegistrationMessage { get; }
+
+        ICollection<IDeviceCommand> CommandList { get; }
+
+        bool Sleeping { get; set; }
+
+        bool HasFailedCommand { get; }
+
+        bool IsOnline { get; }
     }
 }

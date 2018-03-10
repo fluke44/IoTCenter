@@ -118,6 +118,7 @@
   <ItemGroup>
     <Content Include="About.aspx" />
     <Content Include="Ajax\GetSensors.aspx" />
+    <Content Include="Ajax\Switches.aspx" />
     <Content Include="Contact.aspx" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
@@ -127,12 +128,17 @@
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.eot" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
+    <Content Include="img\offline.png" />
+    <Content Include="img\online.png" />
+    <Content Include="img\sleeping.png" />
     <Content Include="Index.aspx" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
+    <Content Include="Scripts\chroma.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <Content Include="Scripts\jquery-3.2.1.min.js" />
+    <Content Include="Scripts\jquery.qtip.min.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
@@ -163,6 +169,7 @@
     <Content Include="Global.asax" />
     <Content Include="Site.Master" />
     <Content Include="Styles\Default.css" />
+    <Content Include="Styles\jquery.qtip.min.css" />
     <Content Include="ViewSwitcher.ascx" />
     <Content Include="Web.config" />
     <Content Include="Bundle.config" />
@@ -184,6 +191,13 @@
     </Compile>
     <Compile Include="Ajax\GetSensors.aspx.designer.cs">
       <DependentUpon>GetSensors.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Ajax\Switches.aspx.cs">
+      <DependentUpon>Switches.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Ajax\Switches.aspx.designer.cs">
+      <DependentUpon>Switches.aspx</DependentUpon>
     </Compile>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="About.aspx.cs">
@@ -242,6 +256,10 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\IoTCenter.DbAccess\IoTCenter.DbAccess.csproj">
+      <Project>{d0597ae1-0bf0-4df0-9402-7da48e54045c}</Project>
+      <Name>IoTCenter.DbAccess</Name>
+    </ProjectReference>
     <ProjectReference Include="..\IotCenter.Devices\IoTCenter.Devices.csproj">
       <Project>{76aee0ca-d3f8-46a2-bd13-62d067f4662d}</Project>
       <Name>IoTCenter.Devices</Name>

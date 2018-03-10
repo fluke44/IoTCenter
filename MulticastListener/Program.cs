@@ -10,6 +10,11 @@ using IoTCenter.Domain;
 using System.Timers;
 using IoTCenter.Service;
 using IoTCenter.DbAccess.DataAccess.Writers;
+using IoTCenter.Domain.Model;
+using IoTCenter.Domain.Interface;
+using IoTCenter.Domain.Enum;
+using IoTCenter.Devices.Handlers;
+using IoTCenter.Logging;
 
 namespace MulticastListener
 {
@@ -17,17 +22,33 @@ namespace MulticastListener
     {
         private const int Port = 8603;
 
-        private static RegistrationHandler _regHandler;
-        private static DeviceWriter _devWriter;
+        private static readonly RegistrationHandler _regHandler;
+        private static readonly DeviceWriter _devWriter;
+        private static readonly DeviceCommander _cmdHandler;
+
+        static Program()
+        {
+            _regHandler = new RegistrationHandler();
+            _devWriter = new DeviceWriter();
+            _cmdHandler = new DeviceCommander();
+        }
 
         static void Main(string[] args)
         {
-            _regHandler = new RegistrationHandler();
-
             Timer timer = new Timer(30000);
             timer.Elapsed += new ElapsedEventHandler(PingDevices);
             timer.Start();
 
+            var client = StartUdpClient();
+
+            // Wait for any key to terminate application
+            Console.ReadKey();
+
+            client.Close();
+        }
+
+        private static UdpClient StartUdpClient()
+        {
             IPEndPoint remoteSender = new IPEndPoint(IPAddress.Any, 0);
 
             // Create UDP client
@@ -36,9 +57,7 @@ namespace MulticastListener
             // Start async receiving
             client.BeginReceive(new AsyncCallback(DataReceived), state);
 
-            // Wait for any key to terminate application
-            Console.ReadKey();
-            client.Close();
+            return client;
         }
 
         private static void DataReceived(IAsyncResult ar)
@@ -60,14 +79,20 @@ namespace MulticastListener
                 {
                     // Convert data to ASCII and print in console
                     string receivedText = ASCIIEncoding.ASCII.GetString(receiveBytes);
-                    Console.WriteLine(receivedText);
+                    EventLogger.LogIncomingMessage(receivedText);
+                    Console.WriteLine($"{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss.fff")} :: {receivedText}");
 
-                    ParseRequest(receivedText);
+                    ProcessRequest(receivedText, receivedIpEndPoint.Address);
                 }
             }
             catch(Exception ex)
             {
-                Console.Write(ex.Message);
+                //ErrorHandler.Log(ex);
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine(ex.Message);
+                Console.ForegroundColor = ConsoleColor.Yellow;
+                Console.WriteLine(ex.StackTrace);
+                Console.ResetColor();
             }
             finally
             {
@@ -76,28 +101,28 @@ namespace MulticastListener
             }        
         }
 
-        private static void ParseRequest(string text)
+        private static void ProcessRequest(string requestString, IPAddress ip)
         {
-            if (!Constants.UdpActions.Any(x => text.Contains(x))) return;
+            IDeviceRequest request = new DeviceRequest(requestString, ip);
+            IDevice device = request.Device;
 
-            Device device;
-            string[] data;
-            if (text.Contains("|")) data = text.Split('|'); else data = new string[] { text };
-            switch(data[0].ToUpper())
+            switch (request.Action)
             {
-                case "REGISTRATION_REQ":
-                    device = new Device(text) { Registered = true };
-                    _regHandler.RegisterDevice(device);
+                case UdpAction.RegistrationRequest:
+                    device.Registered = true;
+                    _regHandler.RegisterDevice(request.Device);
+                    _cmdHandler.RunPendingCommands(device);
                     break;
-                case "PING":
-                    device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
+                case UdpAction.Ping:
+                    device.Registered = true;
                     _regHandler.RegisteredDevices.Add(device);
                     break;
-                case "DATA":
-                    device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
-                    _devWriter.LogData(Convert.ToString(data[1]), Convert.ToString(data[2]));
+                case UdpAction.Data:
+                    device.Registered = true;
+                    _devWriter.LogData(device.Name, device.Mac);
                     break;
                 default:
+                    Console.WriteLine($"Unknown action from ip {ip}");
                     break;
             }
         }
@@ -106,5 +131,31 @@ namespace MulticastListener
         {
             _regHandler.HandleRegistrations();
         }
+
+        //private static void ParseRequest(string text)
+        //{
+        //    //if (!Constants.UdpActions.Any(x => text.Contains(x))) return;
+
+        //    Device device;
+        //    string[] data;
+        //    if (text.Contains("|")) data = text.Split('|'); else data = new string[] { text };
+        //    switch(data[0].ToUpper())
+        //    {
+        //        case "REGISTRATION_REQ":
+        //            device = new Device(text) { Registered = true };
+        //            _regHandler.RegisterDevice(device);
+        //            break;
+        //        case "PING":
+        //            device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
+        //            _regHandler.RegisteredDevices.Add(device);
+        //            break;
+        //        case "DATA":
+        //            device = new Device() { Registered = true, Mac = Convert.ToString(data[1]) };
+        //            _devWriter.LogData(Convert.ToString(data[1]), Convert.ToString(data[2]));
+        //            break;
+        //        default:
+        //            break;
+        //    }
+        //}
     }
 }
